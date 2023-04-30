@@ -31,4 +31,8 @@ public class MainCategory extends BaseEntity {
         this.name = name;
     }
 
+    public MainCategory(Long id) {
+        this.id = id;
+    }
+
 }

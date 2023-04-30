@@ -4,6 +4,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.the2ang.cardmemory.entity.bookstore.QAuthor;
 import com.the2ang.cardmemory.entity.bookstore.QBook;
 import com.the2ang.cardmemory.entity.card.QMainCategory;
+import com.the2ang.cardmemory.entity.card.QMemoryCard;
+import com.the2ang.cardmemory.entity.card.QMiddleCategory;
 import com.the2ang.cardmemory.repository.BaseRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
@@ -16,6 +18,8 @@ public abstract class BaseCardRepositoryImpl<T,ID>
 
 
     protected final QMainCategory mainCategory = QMainCategory.mainCategory;
+    protected final QMiddleCategory middleCategory = QMiddleCategory.middleCategory;
+    protected final QMemoryCard memoryCard = QMemoryCard.memoryCard;
 
     public BaseCardRepositoryImpl(Class<T> domainClass, EntityManager em) {
         super(domainClass, em);

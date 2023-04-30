@@ -36,5 +36,9 @@ public class MiddleCategory extends BaseEntity {
         this.name = name;
     }
 
+    public MiddleCategory(Long id) {
+        this.id = id;
+    }
+
 
 }

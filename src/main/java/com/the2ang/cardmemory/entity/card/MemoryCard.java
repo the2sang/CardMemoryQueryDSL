@@ -60,9 +60,10 @@ public class MemoryCard extends BaseEntity {
     private Short completed;
 
     @Builder
-    public MemoryCard(Long id, String questionType, String question, String num1, String num2, String num3,
+    public MemoryCard(Long id, MiddleCategory middleCategory, String questionType, String question, String num1, String num2, String num3,
                             String num4, String rightAnswer, Short learningCount, Short level, Short completed) {
         this.id = id;
+        this.middleCategory = middleCategory;
         this.questionType = questionType;
         this.question = question;
         this.num1 = num1;
