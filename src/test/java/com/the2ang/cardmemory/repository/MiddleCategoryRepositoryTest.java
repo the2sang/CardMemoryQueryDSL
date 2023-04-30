@@ -47,7 +47,7 @@ public class MiddleCategoryRepositoryTest {
         for (int i =0; i < 4; i++) {
             middleCategory = middleCategory.builder()
                     .name("test-" + String.valueOf(i))
-                    .mainCategory(new MainCategory(1L))
+                    .mainCategory(new MainCategory(1))
                     .build();
             middleCategoryRepository.save(middleCategory);
         }
@@ -58,7 +58,7 @@ public class MiddleCategoryRepositoryTest {
     @DisplayName("대분류 코드로 중분류 코드 리스트 가져오기")
     public void findMiddleCategoryByMainCategory() {
 
-        List<MiddleCategory> byMainCategory = middleCategoryRepository.findByMainCategory(1L);
+        List<MiddleCategory> byMainCategory = middleCategoryRepository.findByMainCategory(1);
 
         log.info("byMainCategory size:" + byMainCategory.size());
 

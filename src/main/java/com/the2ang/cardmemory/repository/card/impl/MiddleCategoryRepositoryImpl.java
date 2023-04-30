@@ -9,7 +9,7 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 public class MiddleCategoryRepositoryImpl
-        extends BaseCardRepositoryImpl<MiddleCategory, Long> implements MiddleCategoryRepository {
+        extends BaseCardRepositoryImpl<MiddleCategory, Integer> implements MiddleCategoryRepository {
     public MiddleCategoryRepositoryImpl(EntityManager em) {
         super(MiddleCategory.class, em);
     }
@@ -22,7 +22,7 @@ public class MiddleCategoryRepositoryImpl
     }
 
     @Override
-    public List<MiddleCategory> findByMainCategory(Long id) {
+    public List<MiddleCategory> findByMainCategory(Integer id) {
         return jpaQueryFactory.selectFrom(middleCategory)
                 .where(middleCategory.mainCategory.id.eq(id))
                 .fetch();

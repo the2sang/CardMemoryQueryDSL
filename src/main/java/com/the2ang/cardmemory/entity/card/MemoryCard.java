@@ -1,6 +1,7 @@
 package com.the2ang.cardmemory.entity.card;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,14 +17,13 @@ public class MemoryCard extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "middle_category_id")
     private MiddleCategory middleCategory;
 
-    @Column(nullable = false, length = 2 )
-    @ColumnDefault("'MC'")
+    @Column(columnDefinition = "varchar(2) default 'MC'")
     private String questionType;
 
     @Column(length = 500, nullable = false)
@@ -45,23 +45,23 @@ public class MemoryCard extends BaseEntity {
     private String rightAnswer;
 
     @Column(length = 2)
-    private Short rigntAnswerNum;
+    private Integer rightAnswerNum;
 
     @Column(length = 2)
     @ColumnDefault("0")
-    private Short learningCount;
+    private Integer learningCount;
 
     @Column(length = 2)
     @ColumnDefault("1")
-    private Short level;
+    private Integer level;
 
     @Column(length = 2)
     @ColumnDefault("0")
-    private Short completed;
+    private Integer completed;
 
     @Builder
-    public MemoryCard(Long id, MiddleCategory middleCategory, String questionType, String question, String num1, String num2, String num3,
-                            String num4, String rightAnswer, Short learningCount, Short level, Short completed) {
+    public MemoryCard(Integer id, MiddleCategory middleCategory, String questionType, String question, String num1, String num2, String num3,
+                            String num4, String rightAnswer, Integer rightAnswerNum, Integer learningCount, Integer level, Integer completed) {
         this.id = id;
         this.middleCategory = middleCategory;
         this.questionType = questionType;
@@ -71,6 +71,7 @@ public class MemoryCard extends BaseEntity {
         this.num3 = num3;
         this.num4 = num4;
         this.rightAnswer = rightAnswer;
+        this.rightAnswerNum = rightAnswerNum;
         this.learningCount = learningCount;
         this.level = level;
         this.completed = completed;

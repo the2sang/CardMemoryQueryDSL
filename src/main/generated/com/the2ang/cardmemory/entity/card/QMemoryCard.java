@@ -24,16 +24,16 @@ public class QMemoryCard extends EntityPathBase<MemoryCard> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final NumberPath<Short> completed = createNumber("completed", Short.class);
+    public final NumberPath<Integer> completed = createNumber("completed", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
-    public final NumberPath<Short> learningCount = createNumber("learningCount", Short.class);
+    public final NumberPath<Integer> learningCount = createNumber("learningCount", Integer.class);
 
-    public final NumberPath<Short> level = createNumber("level", Short.class);
+    public final NumberPath<Integer> level = createNumber("level", Integer.class);
 
     public final QMiddleCategory middleCategory;
 
@@ -51,7 +51,7 @@ public class QMemoryCard extends EntityPathBase<MemoryCard> {
 
     public final StringPath rightAnswer = createString("rightAnswer");
 
-    public final NumberPath<Short> rigntAnswerNum = createNumber("rigntAnswerNum", Short.class);
+    public final NumberPath<Integer> rightAnswerNum = createNumber("rightAnswerNum", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

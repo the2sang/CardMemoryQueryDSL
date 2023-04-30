@@ -12,6 +12,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -60,6 +61,7 @@ public class MemoryCardRepositoryTest {
 
     @Test
     @DisplayName("중분류 코드별 메모리 카드 리스트 가져오기")
+    @Order(1)
     public void findMemoryCardByMiddleCategory() {
 
         for (int i =0; i < 5; i++) {
@@ -67,12 +69,14 @@ public class MemoryCardRepositoryTest {
                     .question("질문-" + String.valueOf(i))
                     .questionType("MC")
                     .rightAnswer("정답" + String.valueOf(i))
-                    .middleCategory(new MiddleCategory(1L))
+                    .middleCategory(new MiddleCategory(1))
                     .build();
             memoryCardRepository.save(memoryCard);
         }
 
-        List<MemoryCard> byName = memoryCardRepository.findByMiddleCategory(1L);
+        List<MemoryCard> byName = memoryCardRepository.findByMiddleCategory(1);
+
+
 
         log.info("Memory Card Size:" + byName.size());
     }

@@ -9,16 +9,23 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 public class MemoryCardRepositoryImpl
-        extends BaseCardRepositoryImpl<MemoryCard, Long> implements MemoryCardRepository {
+        extends BaseCardRepositoryImpl<MemoryCard, Integer> implements MemoryCardRepository {
     public MemoryCardRepositoryImpl(EntityManager em) {
         super(MemoryCard.class, em);
     }
 
     @Override
-    public List<MemoryCard> findByMiddleCategory(Long id) {
+    public List<MemoryCard> findByMiddleCategory(Integer id) {
         return jpaQueryFactory.selectFrom(memoryCard)
                 .where(memoryCard.middleCategory.id.eq(id))
                 .fetch();
+    }
+
+    @Override
+    public List<MemoryCard> findByQuestion_dsl(String question) {
+       return  jpaQueryFactory.selectFrom(memoryCard)
+               .where(memoryCard.question.like("%" + question + "%"))
+               .fetch();
     }
 
 }

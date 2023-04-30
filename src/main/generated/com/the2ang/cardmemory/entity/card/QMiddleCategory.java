@@ -27,7 +27,7 @@ public class QMiddleCategory extends EntityPathBase<MiddleCategory> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final QMainCategory mainCategory;
 

@@ -5,7 +5,7 @@ import com.the2ang.cardmemory.repository.BaseRepository;
 
 import java.util.List;
 
-public interface MainCategoryRepository extends BaseRepository<MainCategory, Long> {
+public interface MainCategoryRepository extends BaseRepository<MainCategory, Integer> {
 
     public List<MainCategory> findByName(String name);
 }

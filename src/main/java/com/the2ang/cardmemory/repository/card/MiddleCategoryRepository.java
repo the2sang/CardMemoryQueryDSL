@@ -6,11 +6,11 @@ import com.the2ang.cardmemory.repository.BaseRepository;
 
 import java.util.List;
 
-public interface MiddleCategoryRepository extends BaseRepository<MiddleCategory, Long> {
+public interface MiddleCategoryRepository extends BaseRepository<MiddleCategory, Integer> {
 
     public List<MiddleCategory> findByName(String name);
 
-    public List<MiddleCategory> findByMainCategory(Long id);
+    public List<MiddleCategory> findByMainCategory(Integer id);
 
 
 }

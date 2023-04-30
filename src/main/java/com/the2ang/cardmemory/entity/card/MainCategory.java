@@ -17,21 +17,21 @@ public class MainCategory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Integer id;
 
-    @OneToMany(mappedBy = "mainCategory")
+    @OneToMany(mappedBy = "mainCategory",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<MiddleCategory> middleCategories = new ArrayList<>();
 
     @Column(length = 100, nullable = false)
     private String name;
 
     @Builder
-    public MainCategory(Long id, String name) {
+    public MainCategory(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public MainCategory(Long id) {
+    public MainCategory(Integer id) {
         this.id = id;
     }
 

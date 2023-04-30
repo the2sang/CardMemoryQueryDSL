@@ -35,7 +35,7 @@ public class MainCategoryRepositoryTest {
     void setup() {
 
         mainCategory = MainCategory.builder()
-                .name("test2")
+                .name("리눅스마스터 2급")
                 .build();
         mainCategoryRepository.save(mainCategory);
     }
