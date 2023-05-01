@@ -111,7 +111,8 @@ public class CardService {
         return result;
     }
 
-    // 메모리 카드 벌크로 저장하기
+
+    // 메모리 카드 벌크로 저장하기...
     @Transactional
     public List<MemoryCard> saveMemoryCardBulk(List<MemoryCard> saveList) {
         return memoryCardRepository.saveAll(saveList);
