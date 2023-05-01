@@ -28,4 +28,14 @@ public class MemoryCardRepositoryImpl
                .fetch();
     }
 
+    @Override
+    public List<MemoryCard> findByQuestion_dsl2(String question) {
+        return jpaQueryFactory.selectFrom(memoryCard)
+                .join(memoryCard.middleCategory, middleCategory).fetchJoin()
+                .where(memoryCard.question.like("%" + question + "%"))
+                .fetch();
+    }
+
+
+
 }

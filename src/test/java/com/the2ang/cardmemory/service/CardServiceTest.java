@@ -103,18 +103,42 @@ public class CardServiceTest {
     @DisplayName("중분류에서 대분류 참조 리스트 가져오기")
     @Order(3)
     void findMemoryCardByQuestion() {
-        mainCategory = MainCategory.builder()
-                .name("리눅스마스터 2급")
-                .build();
-        MainCategory savedMainCategory = cardService.saveMainCategory(mainCategory);
 
-        //중분류 5개 생성 대분류 코드 1
-        middleCategory = middleCategory.builder()
-                .name("SQL")
-                .mainCategory(new MainCategory(savedMainCategory.getId()))
-                .build();
 
-        MiddleCategory savedMiddleCategory = cardService.saveMiddleCategory(middleCategory);
+        List<MemoryCard> ressult = saveDefaultMemoryCardData();
+
+        List<MemoryCard> memoryCardList  = cardService.findMemoryCardByMiddleCategory(ressult.get(0).getMiddleCategory().getId());
+
+        log.info("memoryCardList - " + memoryCardList.size());
+
+        Assertions.assertEquals(memoryCardList.size(), 5);
+
+        mainCategoryRepository.deleteAll();
+        middleCategoryRepository.deleteAll();
+        memoryCardRepository.deleteAll();
+
+
+    }
+
+    @Test
+    void searchMemoryCardByQuestion_fetchJoin() {
+
+        List<MemoryCard> defaultMemoryCard = saveDefaultMemoryCardData();
+
+        //질문명으로 검색
+        List<MemoryCard> memoryCardList = cardService.findMemoryCardByQuestion_dsl("질문");
+
+        log.info("size:" + memoryCardList.size());
+    }
+
+
+
+
+
+    private List<MemoryCard> saveDefaultMemoryCardData() {
+
+
+        MiddleCategory savedMiddleCategory = saveDefaultMiddleCategory();
 
         List<MemoryCard> saveList = new ArrayList<>();
 
@@ -131,20 +155,22 @@ public class CardServiceTest {
         }
 
 
-        List<MemoryCard> ressult = memoryCardRepository.saveAll(saveList);
-
-        List<MemoryCard> memoryCardList  = cardService.findMemoryCardByMiddleCategory(ressult.get(0).getMiddleCategory().getId());
-
-        log.info("memoryCardList - " + memoryCardList.size());
-
-        Assertions.assertEquals(memoryCardList.size(), 5);
-
-        mainCategoryRepository.deleteAll();
-        middleCategoryRepository.deleteAll();
-        memoryCardRepository.deleteAll();
-
-
+        return memoryCardRepository.saveAll(saveList);
     }
 
+    private MiddleCategory saveDefaultMiddleCategory() {
+        mainCategory = MainCategory.builder()
+                .name("리눅스마스터 2급")
+                .build();
+        MainCategory savedMainCategory = cardService.saveMainCategory(mainCategory);
+
+        //중분류 5개 생성 대분류 코드 1
+        middleCategory = middleCategory.builder()
+                .name("SQL")
+                .mainCategory(new MainCategory(savedMainCategory.getId()))
+                .build();
+
+        return cardService.saveMiddleCategory(middleCategory);
+    }
 
 }
