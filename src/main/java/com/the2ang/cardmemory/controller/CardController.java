@@ -60,6 +60,8 @@ public class CardController {
        return result;
     }
 
+
+    //벌크로 저장
     @ApiOperation(value = "카드 학습 벌크로 저장하기", notes = "카드 학습 벌크저장")
     @PostMapping("/memorycard/bulksave")
     public CommonResult saveMemoryCardBulk(@RequestBody @Valid List<MemoryCard> bulklist) {
