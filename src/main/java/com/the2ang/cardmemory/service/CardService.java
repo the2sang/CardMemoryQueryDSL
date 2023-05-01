@@ -1,5 +1,6 @@
 package com.the2ang.cardmemory.service;
 
+import com.the2ang.cardmemory.dto.MemoryCardDto;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
 import com.the2ang.cardmemory.entity.card.MiddleCategory;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CardService {
@@ -83,6 +85,29 @@ public class CardService {
     @Transactional(readOnly = true)
     public List<MemoryCard> findMemoryCardByQuestion_dsl(String question) {
         return memoryCardRepository.findByQuestion_dsl2(question);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemoryCardDto> findMemoryCardByMiddleCodeFetchJoin(Integer id) {
+
+        List<MemoryCard> orgList = memoryCardRepository.findByMiddleCategoryFechJoin(id);
+
+        List<MemoryCardDto> result = orgList.stream()
+                .map( o -> new MemoryCardDto(o.getId(),
+                        o.getMiddleCategory().toDto(),
+                        o.getQuestionType(), o.getQuestion(),
+                        o.getExplanation(),
+                        o.getNum1(),
+                        o.getNum2(),
+                        o.getNum3(),
+                        o.getNum4(),
+                        o.getRightAnswer(),
+                        o.getRightAnswerNum(),
+                        o.getLearningCount(),
+                        o.getLevel(),
+                        o.getCompleted())).collect(Collectors.toList());
+
+        return result;
     }
 
 }

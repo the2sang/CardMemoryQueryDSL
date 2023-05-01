@@ -1,5 +1,6 @@
 package com.the2ang.cardmemory.entity.card;
 
+import com.the2ang.cardmemory.dto.MainCategoryDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,13 @@ public class MainCategory extends BaseEntity {
     public MainCategory(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public MainCategoryDto toDto() {
+        return MainCategoryDto.builder()
+                .id(id)
+                .name(name)
+                .build();
     }
 
     public MainCategory(Integer id) {

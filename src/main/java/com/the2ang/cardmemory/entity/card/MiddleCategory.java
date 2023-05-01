@@ -1,11 +1,11 @@
 package com.the2ang.cardmemory.entity.card;
 
+import com.the2ang.cardmemory.dto.MiddleCategoryDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class MiddleCategory extends BaseEntity {
     private String name;
 
     @Builder
-    public MiddleCategory(Integer id, MainCategory mainCategory, String name ) {
+    public MiddleCategory(Integer id, MainCategory mainCategory, String name) {
         this.id = id;
         this.mainCategory = mainCategory;
         this.name = name;
@@ -38,6 +38,14 @@ public class MiddleCategory extends BaseEntity {
 
     public MiddleCategory(Integer id) {
         this.id = id;
+    }
+
+    public MiddleCategoryDto toDto() {
+        return MiddleCategoryDto.builder()
+                .id(id)
+                .name(name)
+                .mainCategoryDto(mainCategory.toDto())
+                .build();
     }
 
 

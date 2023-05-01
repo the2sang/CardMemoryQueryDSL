@@ -1,95 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true" scan="true">
+<Configuration scan="true" scanPeriod="30 seconds">
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
-    <property name="LOG_DIR" value="logs" />
-    <property name="SERVER_NAME" value="cardmemory"/>
-    <property name="LOG_PATH_NAME" value="${LOG_DIR}" />
-    <property name="FILE_NAME" value="cardmemory-api-server" />
-
-    <!-- FILE Appender -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!-- <file>${LOG_PATH_NAME}/${FILE_NAME}.log</file> -->
-        <file>${LOG_PATH_NAME}/${FILE_NAME}.log</file>
-        <!-- 일자별 로그파일 저장 -->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH_NAME}/${FILE_NAME}_%d{yyyyMMdd}.log</fileNamePattern>
-            <!-- 일자별 로그파일 저장 기간 설정 -->
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
+    <property name="ERROR_LOG_FILE" value="${LOG_PATH}/error_${LOG_FILE}"/>
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%F]%M\(%L\) : %m%n</pattern>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
         </encoder>
+        <file>${ERROR_LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN:-${ERROR_LOG_FILE}.%d{yyyy-MM-dd}.%i.gz}</fileNamePattern>
+            <cleanHistoryOnStart>${LOGBACK_ROLLINGPOLICY_CLEAN_HISTORY_ON_START:-false}</cleanHistoryOnStart>
+            <maxFileSize>${LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:-10MB}</maxFileSize>
+            <totalSizeCap>${LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP:-0}</totalSizeCap>
+            <maxHistory>${LOGBACK_ROLLINGPOLICY_MAX_HISTORY:-7}</maxHistory>
+        </rollingPolicy>
     </appender>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <!-- [2018-08-17] [15:24:21.355] [log level] [logName]      [class.java line]       [message] -->
-            <!--     날짜           시간       로그레벨    로거이름   로그인클래스.java 몇번째줄    로그메세지 -->
-            <pattern>[%d{yyyy-MM-dd}] [%d{HH:mm:ss.SSS}] [%p] [%c{1}] [%F:%L [%m]%n</pattern>
-        </layout>
-    </appender>
-
-
-
-    <!--Log4jdbc-->
-    <Loggers>
-
-        <!-- Spring -->
-        <Logger name="org.springframework" level="OFF" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-        <Logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-
-        <Logger
-                name="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-                level="OFF" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-
-        <Logger name="org.hotswap" level="OFF" additivity="false">
-        </Logger>
-
-        <Logger name="jdbc.connection" level="OFF" additivity="false">
-            <appenderref ref="FILE"/>
-        </Logger>
-
-        <Logger name="jdbc.sqlonly" level="OFF" additivity="false">
-            <AppenderRef ref="FILE"/>
-        </Logger>
-
-        <Logger name="jdbc.sqltiming" level="OFF" additivity="false">
-            <AppenderRef ref="FILE"/>
-        </Logger>
-
-        <Logger name="jdbc.audit" level="INFO" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-
-        <Logger name="jdbc.resultset" level="OFF" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-
-        <Logger name="jdbc.resultsettable" level="INFO" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-
-        <Root level="ERROR">
-            <AppenderRef ref="FILE"/>
-        </Root>
-
-    </Loggers>
-
-
-
-    <!-- ERROR레벨 이상만 출력 -->
-    <!-- <root level="INFO"> -->
     <root level="INFO">
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ERROR_FILE" />
     </root>
-
-</configuration>
+</Configuration>

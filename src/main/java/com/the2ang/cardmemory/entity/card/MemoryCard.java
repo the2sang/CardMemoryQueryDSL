@@ -29,6 +29,10 @@ public class MemoryCard extends BaseEntity {
     @Column(length = 500, nullable = false)
     private String question;
 
+    // 질문 설명 추가
+    @Column(length = 500)
+    private String explanation;
+
     @Column(length = 300)
     private String num1;
 
@@ -60,12 +64,13 @@ public class MemoryCard extends BaseEntity {
     private Integer completed;
 
     @Builder
-    public MemoryCard(Integer id, MiddleCategory middleCategory, String questionType, String question, String num1, String num2, String num3,
+    public MemoryCard(Integer id, MiddleCategory middleCategory, String questionType, String question, String explanation, String num1, String num2, String num3,
                             String num4, String rightAnswer, Integer rightAnswerNum, Integer learningCount, Integer level, Integer completed) {
         this.id = id;
         this.middleCategory = middleCategory;
         this.questionType = questionType;
         this.question = question;
+        this.explanation = explanation;
         this.num1 = num1;
         this.num2 = num2;
         this.num3 = num3;

@@ -36,6 +36,14 @@ public class MemoryCardRepositoryImpl
                 .fetch();
     }
 
+    @Override
+    public List<MemoryCard> findByMiddleCategoryFechJoin(Integer id) {
+       return jpaQueryFactory.selectFrom(memoryCard)
+               .join(memoryCard.middleCategory, middleCategory).fetchJoin()
+               .where(memoryCard.middleCategory.id.eq(id))
+               .fetch();
+    }
+
 
 
 }

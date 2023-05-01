@@ -29,6 +29,8 @@ public class QMemoryCard extends EntityPathBase<MemoryCard> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final StringPath explanation = createString("explanation");
+
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
 
     public final NumberPath<Integer> learningCount = createNumber("learningCount", Integer.class);
