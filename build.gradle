@@ -48,6 +48,7 @@ dependencies {
 
     // === QueryDsl 시작 ===
 
+
     // == 스프링 부트 3.0 이상 ==
     // Querydsl 추가
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'

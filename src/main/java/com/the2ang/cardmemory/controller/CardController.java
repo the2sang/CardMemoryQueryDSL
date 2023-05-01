@@ -16,6 +16,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Api(tags = {"1. 플레시 카드 서비스"})
 @RestController
 @RequestMapping("/api")
@@ -47,7 +49,7 @@ public class CardController {
     }
 
 
-    //TODO..
+
     @ApiOperation(value = "중분류 코드로 메모리 카드 가져오기", notes = "중분류 코드로 메모리 카드 조회")
     @GetMapping("/memorycard/middlecode")
     public ListResult<MemoryCardDto> findMamoryCardByMiddleCategoryId(@RequestParam String param) {
@@ -56,6 +58,12 @@ public class CardController {
        //         .writeValueAsString(cardService.findMemoryCardByMiddleCodeFetchJoin(Integer.valueOf(param))));
 
        return result;
+    }
+
+    @ApiOperation(value = "카드 학습 벌크로 저장하기", notes = "카드 학습 벌크저장")
+    @PostMapping("/memorycard/bulksave")
+    public CommonResult saveMemoryCardBulk(@RequestBody @Valid List<MemoryCard> bulklist) {
+        return responseService.getSingleResult(cardService.saveMemoryCardBulk(bulklist));
     }
 
 

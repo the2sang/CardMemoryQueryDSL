@@ -87,6 +87,7 @@ public class CardService {
         return memoryCardRepository.findByQuestion_dsl2(question);
     }
 
+    // 중분류 코드로 메모리 카드 가져오기 (Apply Fetch Join)
     @Transactional(readOnly = true)
     public List<MemoryCardDto> findMemoryCardByMiddleCodeFetchJoin(Integer id) {
 
@@ -108,6 +109,12 @@ public class CardService {
                         o.getCompleted())).collect(Collectors.toList());
 
         return result;
+    }
+
+    // 메모리 카드 벌크로 저장하기
+    @Transactional
+    public List<MemoryCard> saveMemoryCardBulk(List<MemoryCard> saveList) {
+        return memoryCardRepository.saveAll(saveList);
     }
 
 }
