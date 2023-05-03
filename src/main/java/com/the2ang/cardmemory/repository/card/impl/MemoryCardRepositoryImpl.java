@@ -41,6 +41,7 @@ public class MemoryCardRepositoryImpl
        return jpaQueryFactory.selectFrom(memoryCard)
                .join(memoryCard.middleCategory, middleCategory).fetchJoin()
                .where(memoryCard.middleCategory.id.eq(id))
+               .orderBy(memoryCard.id.asc())
                .fetch();
     }
 
