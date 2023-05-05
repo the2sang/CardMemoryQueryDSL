@@ -118,4 +118,18 @@ public class CardService {
         return memoryCardRepository.saveAll(saveList);
     }
 
+    // 대분류 코드 전체 가져오기
+    @Transactional(readOnly = true)
+    public List<MainCategory> findAllMainCategory() {
+        return mainCategoryRepository.findAll();
+    }
+
+
+    // 중분류 코드 전체 가져오기
+    @Transactional(readOnly = true)
+    public List<MiddleCategory> findAllMiddleCategory() {
+        return middleCategoryRepository.findAll();
+    }
+
+
 }
