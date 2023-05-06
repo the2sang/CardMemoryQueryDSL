@@ -103,6 +103,7 @@ public class CardController {
 
     @ApiOperation(value = "대분류 코드 전체 가져오기", notes = "대분류 코드 모두 읽기")
     @GetMapping("/mainCategory/all")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ListResult<MainCategory> getAllMainCategory() {
         return responseService.getListResult(cardService.findAllMainCategory());
     }

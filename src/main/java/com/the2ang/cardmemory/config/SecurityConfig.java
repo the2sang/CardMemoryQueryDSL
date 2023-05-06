@@ -3,6 +3,7 @@ package com.the2ang.cardmemory.config;
 import com.the2ang.cardmemory.dto.jwt.JwtUtil;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -18,46 +19,26 @@ import org.springframework.stereotype.Service;
  * Security 설정 Config
  */
 
-@Service
+@Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
-public class SecurityConfig  {
+public class SecurityConfig {
 
-    private final JwtUtil jwtUtil;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private static final String[] WHITE_LIST = {
+            "/users/**",
+            "/**"
+    };
 
     @Bean
-    public WebSecurityCustomizer ignoringCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/api/**");
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        http.cors().disable();
+    protected SecurityFilterChain config(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.cors().disable();
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.headers().frameOptions().disable();
 
-        http.authorizeRequests().requestMatchers("/api/**").permitAll()
-                .anyRequest().authenticated()
-                .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(WHITE_LIST).permitAll());
         return http.build();
-
     }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        // 정적 리소스 spring security 대상에서 제외
-        return (web) -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-
-        //return (web) -> web.ignoring().requestMatchers("/api");
-    }
-
 
 }

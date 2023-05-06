@@ -20,8 +20,8 @@ public class MainCategory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @OneToMany(mappedBy = "mainCategory",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<MiddleCategory> middleCategories = new ArrayList<>();
+//    @OneToMany(mappedBy = "mainCategory",cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<MiddleCategory> middleCategories = new ArrayList<>();
 
     @Column(length = 100, nullable = false)
     private String name;
