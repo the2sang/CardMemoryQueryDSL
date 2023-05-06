@@ -33,11 +33,26 @@ dependencies {
 
     implementation "io.springfox:springfox-boot-starter:3.0.0"
     compileOnly "io.springfox:springfox-swagger-ui:3.0.0"
+     //https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-data-rest
+    //implementation 'org.springdoc:springdoc-openapi-data-rest:1.7.0'
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-security
+    //implementation 'org.springdoc:springdoc-openapi-security:1.7.0'
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+
+
+
+
 
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.1'
     // jwt 의존성
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
     // 다국어 제공을 위한 i18n을 yml 파일로 적용하기 위한 의존성
     implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
@@ -65,6 +80,10 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     // https://mvnrepository.com/artifact/org.postgresql/r2dbc-postgresql
     //implementation 'org.postgresql:r2dbc-postgresql:1.0.1.RELEASE'
+
+    // https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
 
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

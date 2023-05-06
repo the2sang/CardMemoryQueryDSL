@@ -2,12 +2,11 @@ package com.the2ang.cardmemory.dto.jwt;
 
 import lombok.*;
 
-@Getter
-@Setter
+
 @Builder
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class TokenDto {
+public class TokenInfo {
     private String grantType;
     private String accessToken;
     private String refreshToken;

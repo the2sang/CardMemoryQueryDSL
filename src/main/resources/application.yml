@@ -1,6 +1,8 @@
 server.port: 8080
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   messages:
     basename: i18n/exception
     encoding: UTF-8
@@ -36,6 +38,16 @@ spring:
     url: jdbc:log4jdbc:postgresql://localhost:5432/memorycard?serverTimezone=UTC&characterEncoding=UTF-8
     user: carduser
     password: carduser
+
+
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+  access:
+    expiration: 179 # 3시간 600 * 3
+  refresh:
+    expiration: 364 # 1년
+
+
 logging:
   config: classpath:logback/logback-spring.xml
   charset:

@@ -3,7 +3,10 @@ package com.the2ang.cardmemory.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaAuditing
+/**
+ * JPA auditor enable
+ */
 @Configuration
-public class JpaAuditingConfiguration {
+@EnableJpaAuditing
+public class JpaAuditorConfig {
 }

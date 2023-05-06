@@ -4,19 +4,19 @@ package com.the2ang.cardmemory.controller;
 import com.the2ang.cardmemory.controller.response.CommonResponse;
 import com.the2ang.cardmemory.controller.response.CommonResult;
 import com.the2ang.cardmemory.controller.response.ListResult;
-import com.the2ang.cardmemory.dto.MainCategoryDto;
-import com.the2ang.cardmemory.dto.MemoryCardDto;
-import com.the2ang.cardmemory.dto.MiddleCategoryDto;
-import com.the2ang.cardmemory.entity.card.MainCategory;
-import com.the2ang.cardmemory.entity.card.MemoryCard;
-import com.the2ang.cardmemory.entity.card.MiddleCategory;
+import com.the2ang.cardmemory.dto.*;
+import com.the2ang.cardmemory.dto.jwt.TokenInfo;
+import com.the2ang.cardmemory.entity.card.*;
+import com.the2ang.cardmemory.service.AccountService;
 import com.the2ang.cardmemory.service.CardService;
 import com.the2ang.cardmemory.service.ResponseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jdt.internal.compiler.batch.Main;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +31,16 @@ public class CardController {
     private final CardService cardService;
 
     private final ResponseService responseService;
+    private final AccountService accountService;
+
+
+    @PostMapping("/login")
+    public CommonResult login(@RequestBody AccountReqDto account , HttpServletResponse response) {
+        String username = account.getNickname();
+        String password = account.getPw();
+        return responseService.getSingleResult(accountService.login(new LoginReqDto(username, password, ""), response ));
+        //return tokenInfo;
+    }
 
     @ApiOperation(value = "대분류 저장", notes = "대분류 저장하기")
     @PostMapping("/mainCategory/new")
