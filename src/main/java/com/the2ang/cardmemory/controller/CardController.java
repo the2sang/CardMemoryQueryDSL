@@ -51,13 +51,22 @@ public class CardController {
 
     @ApiOperation(value = "대분류 업데이트", notes = "대분류 업데이트")
     @PutMapping("/mainCategory/update")
-    public CommonResult updateMainCategory(@RequestBody @Valid MainCategoryDto request) {
-        return responseService.getSingleResult(cardService.saveMainCategory(request.toEntity()));
+    public MainCategory updateMainCategory(@RequestBody @Valid MainCategoryDto request) {
+        return cardService.saveMainCategory(request.toEntity());
     }
 
     @ApiOperation(value = "대분류 삭제", notes = "대분류 삭제하기")
-    @DeleteMapping ("/mainCategoory/{id}")
+    @DeleteMapping ("/mainCategory/{id}")
+    @CrossOrigin(origins = "*")
     public CommonResult deleteMainCategory(@PathVariable String id) {
+        cardService.deleteMainCategory(Integer.valueOf(id));
+        return responseService.getSuccessResult();
+    }
+
+
+    @ApiOperation(value = "대분류 삭제", notes = "대분류 삭제하기")
+    @PostMapping("/mainCategory/{id}")
+    public CommonResult deleteMainCategory_post(@PathVariable String id) {
         cardService.deleteMainCategory(Integer.valueOf(id));
         return responseService.getSuccessResult();
     }

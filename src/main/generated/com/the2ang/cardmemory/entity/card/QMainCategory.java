@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -26,8 +25,6 @@ public class QMainCategory extends EntityPathBase<MainCategory> {
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Integer> id = createNumber("id", Integer.class);
-
-    public final ListPath<MiddleCategory, QMiddleCategory> middleCategories = this.<MiddleCategory, QMiddleCategory>createList("middleCategories", MiddleCategory.class, QMiddleCategory.class, PathInits.DIRECT2);
 
     public final StringPath name = createString("name");
 
