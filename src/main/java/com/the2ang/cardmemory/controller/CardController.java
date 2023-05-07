@@ -102,11 +102,32 @@ public class CardController {
 
 
     @ApiOperation(value = "메모리 카드 저장하기", notes = "메모리 카드 저장")
-    @PostMapping("/memorycard/new")
+    @PostMapping("/memoryCard/new")
     public CommonResult saveMemoryCard(@RequestBody @Valid MemoryCardDto request) {
         return responseService.getSingleResult(cardService.saveMemoryCard(request.toEntity()));
     }
 
+    @ApiOperation(value = "메모리 카드 저장히기 2")
+    @PostMapping("/memoryCard/new2")
+    public CommonResult saveMemoryCard2(@RequestBody @Valid MemoryCardAddDto request) {
+
+        System.out.println(request.toString());
+
+        return responseService.getSingleResult(cardService.saveMemoryCard(request.toEntity()));
+    }
+
+    @ApiOperation(value = "메모리 카드 업데이트")
+    @PutMapping("/memoryCard/update")
+    public CommonResult updateMemoryCard(@RequestBody @Valid MemoryCardDto request) {
+        return responseService.getSingleResult(cardService.saveMemoryCard(request.toEntity()));
+    }
+
+    @ApiOperation(value = "메모리 카드 삭제", notes = "메모리 카드 삭제하기")
+    @DeleteMapping ("/memoryCard/{id}")
+    public CommonResult deleteMemoryCard(@PathVariable String id) {
+        cardService.deleteMemoryCard(Integer.valueOf(id));
+        return responseService.getSuccessResult();
+    }
 
 
     @ApiOperation(value = "중분류 코드로 메모리 카드 가져오기", notes = "중분류 코드로 메모리 카드 조회")
@@ -130,6 +151,12 @@ public class CardController {
     @GetMapping("/middleCategory/all")
     public ListResult<MiddleCategory> getAllMiddleCategory() {
         return responseService.getListResult(cardService.findAllMiddleCategory());
+    }
+
+    @ApiOperation(value = "메모리 카드 전체 가져오기", notes = "메모리 카드 전체 읽기")
+    @GetMapping("/memoryCard/all")
+    public ListResult<MemoryCard> getAllMemoryCard() {
+        return responseService.getListResult(cardService.findAllMemoryCard());
     }
 
     @ApiOperation(value = "중분류 코드 전체 패치조인으로 가져오기")

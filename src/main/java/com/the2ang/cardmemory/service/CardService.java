@@ -27,13 +27,13 @@ public class CardService {
     @Autowired
     private MemoryCardRepository memoryCardRepository;
 
-    // 카드 대분류 저장.
+    // 대분류 저장.
     @Transactional
     public MainCategory saveMainCategory(MainCategory mainCategory) {
         return mainCategoryRepository.save(mainCategory);
     }
 
-    // 카드 대분류 삭제
+    // 대분류 삭제
     @Transactional
     public void deleteMainCategory(Integer id) {
         mainCategoryRepository.deleteById(id);
@@ -81,6 +81,11 @@ public class CardService {
         return memoryCardRepository.save(memoryCard);
     }
 
+    // 카드 삭제
+    @Transactional
+    public void deleteMemoryCard(Integer id) {
+        memoryCardRepository.deleteById(id);
+    }
 
     // 카드 질문명으로 검색하기
     @Transactional(readOnly = true)
@@ -143,6 +148,12 @@ public class CardService {
     @Transactional(readOnly = true)
     public List<MiddleCategory> findAllMiddleCategory() {
         return middleCategoryRepository.findAll();
+    }
+
+    // 메모리 카드 전체 가져오기
+    @Transactional(readOnly = true)
+    public List<MemoryCard> findAllMemoryCard() {
+        return memoryCardRepository.findAll();
     }
 
 
