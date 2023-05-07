@@ -1,6 +1,7 @@
 package com.the2ang.cardmemory.service;
 
 import com.the2ang.cardmemory.dto.MemoryCardDto;
+import com.the2ang.cardmemory.dto.MiddleCategoryDto;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
 import com.the2ang.cardmemory.entity.card.MiddleCategory;
@@ -108,6 +109,19 @@ public class CardService {
                         o.getLevel(),
                         o.getCompleted())).collect(Collectors.toList());
 
+        return result;
+    }
+
+    // 중분류 코드 목록 패치조인으로 가져오기
+    @Transactional(readOnly = true)
+    public List<MiddleCategoryDto> findAllMiddleCategoryFetchJoin() {
+        List<MiddleCategory> orgList = middleCategoryRepository.findAllMiddleCategoryFetchJoin();
+
+        List<MiddleCategoryDto> result = orgList.stream()
+                .map(o -> new MiddleCategoryDto(o.getId(),
+                        o.getName(),
+                        o.getMainCategory().toDto()
+                        )).collect(Collectors.toList());
         return result;
     }
 

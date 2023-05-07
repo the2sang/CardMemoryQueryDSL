@@ -28,6 +28,14 @@ public class MiddleCategoryRepositoryImpl
                 .fetch();
     }
 
+    @Override
+    public List<MiddleCategory> findAllMiddleCategoryFetchJoin() {
+        return jpaQueryFactory.selectFrom(middleCategory)
+                .join(middleCategory.mainCategory, mainCategory).fetchJoin()
+                .orderBy(middleCategory.id.asc())
+                .fetch();
+    }
+
 
 
 }

@@ -77,6 +77,15 @@ public class CardController {
         return responseService.getSingleResult(cardService.saveMiddleCategory(request.toEntity()));
     }
 
+    @ApiOperation(value = "중분류 저장히기 2")
+    @PostMapping("/middleCategory/new2")
+    public CommonResult saveMiddleCategory2(@RequestBody @Valid MiddleCategoryAddDto request) {
+
+        System.out.println(request.toString());
+
+        return responseService.getSingleResult(cardService.saveMiddleCategory(request.toEntity()));
+    }
+
     @ApiOperation(value = "중분류 업데이트 하기")
     @PutMapping("/middleCategory/update")
     public CommonResult updateMiddleCategory(@RequestBody @Valid MiddleCategoryDto request) {
@@ -84,9 +93,9 @@ public class CardController {
     }
 
     @ApiOperation(value = "중분류 삭제", notes = "중분류 삭제하기")
-    @DeleteMapping ("/middleCategoory/{id}")
+    @DeleteMapping ("/middleCategory/{id}")
     public CommonResult deleteMiddleCategory(@PathVariable String id) {
-        cardService.deleteMainCategory(Integer.valueOf(id));
+        cardService.deleteMiddleCategory(Integer.valueOf(id));
         return responseService.getSuccessResult();
     }
 
@@ -121,6 +130,12 @@ public class CardController {
     @GetMapping("/middleCategory/all")
     public ListResult<MiddleCategory> getAllMiddleCategory() {
         return responseService.getListResult(cardService.findAllMiddleCategory());
+    }
+
+    @ApiOperation(value = "중분류 코드 전체 패치조인으로 가져오기")
+    @GetMapping("/middleCategoryFetch/all")
+    public ListResult<MiddleCategoryDto> getAllMiddleCategoryFetch() {
+        return responseService.getListResult(cardService.findAllMiddleCategoryFetchJoin());
     }
 
 

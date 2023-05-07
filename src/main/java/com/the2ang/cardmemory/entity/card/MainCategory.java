@@ -32,6 +32,7 @@ public class MainCategory extends BaseEntity {
         this.name = name;
     }
 
+
     public MainCategoryDto toDto() {
         return MainCategoryDto.builder()
                 .id(id)
@@ -39,6 +40,7 @@ public class MainCategory extends BaseEntity {
                 .build();
     }
 
+    @Builder
     public MainCategory(Integer id) {
         this.id = id;
     }
