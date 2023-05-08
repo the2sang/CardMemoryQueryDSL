@@ -8,6 +8,10 @@ import com.the2ang.cardmemory.entity.card.MiddleCategory;
 import com.the2ang.cardmemory.repository.card.MainCategoryRepository;
 import com.the2ang.cardmemory.repository.card.MemoryCardRepository;
 import com.the2ang.cardmemory.repository.card.MiddleCategoryRepository;
+import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -156,5 +160,16 @@ public class CardService {
         return memoryCardRepository.findAll();
     }
 
+    //카드 Slice로 가져오기
+    @Transactional(readOnly = true)
+    public Slice<MemoryCard> searchMemoryCardSlicing(Long lastCardId, CardSearchCondition condition, Pageable pageable) {
+        return memoryCardRepository.searchBySlice(lastCardId, condition, pageable);
+    }
+
+    //카드 목록 Page로 가져오기
+    @Transactional(readOnly = true)
+    public Page<MemoryCard> searchMemoryCardPageing(CardSearchCondition condition, Pageable pageable) {
+        return memoryCardRepository.searchMemoryCardPage(condition, pageable);
+    }
 
 }

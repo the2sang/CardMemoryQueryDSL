@@ -6,7 +6,10 @@ import com.the2ang.cardmemory.controller.response.CommonResult;
 import com.the2ang.cardmemory.controller.response.ListResult;
 import com.the2ang.cardmemory.dto.*;
 import com.the2ang.cardmemory.dto.jwt.TokenInfo;
+import com.the2ang.cardmemory.dto.request.MemoryCardPageRequest;
+import com.the2ang.cardmemory.dto.response.MemoryCardPageResponse;
 import com.the2ang.cardmemory.entity.card.*;
+import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
 import com.the2ang.cardmemory.service.AccountService;
 import com.the2ang.cardmemory.service.CardService;
 import com.the2ang.cardmemory.service.ResponseService;
@@ -131,7 +134,7 @@ public class CardController {
 
 
     @ApiOperation(value = "중분류 코드로 메모리 카드 가져오기", notes = "중분류 코드로 메모리 카드 조회")
-    @GetMapping("/memorycard/middlecode")
+    @GetMapping("/memoryCard/middlecode")
     public ListResult<MemoryCardDto> findMamoryCardByMiddleCategoryId(@RequestParam String param) {
         ListResult<MemoryCardDto> result = responseService.getListResult(cardService.findMemoryCardByMiddleCodeFetchJoin(Integer.valueOf(param)));
        // return responseService.getListResult(jacksonObjectMapper().registerModule(Hibernate5Module())
@@ -172,6 +175,24 @@ public class CardController {
     public CommonResult saveMemoryCardBulk(@RequestBody @Valid List<MemoryCard> bulklist) {
         return responseService.getSingleResult(cardService.saveMemoryCardBulk(bulklist));
     }
+
+    @ApiOperation(value = "카드목록 페이징처리해서 가져오기")
+    @GetMapping("/memoryCard/paging")
+    public ListResult<MemoryCardPageResponse> searchMemoryCardPaging(@RequestBody MemoryCardPageRequest request ) {
+        CardSearchCondition condition
+                = CardSearchCondition.builder()
+                .question(request.getQuestion())
+                .questionType(request.getQuestionType())
+                .middleCategoryId(request.getMiddleCategoryId())
+                .completed(request.getCompleted())
+                .level(request.getLevel())
+                .learningCount(request.getLearningCount())
+                .build();
+
+        return null;
+
+    }
+
 
 
 }
