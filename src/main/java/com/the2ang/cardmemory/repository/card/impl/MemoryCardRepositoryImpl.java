@@ -1,6 +1,7 @@
 package com.the2ang.cardmemory.repository.card.impl;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
 import com.the2ang.cardmemory.repository.card.MainCategoryRepository;
@@ -8,6 +9,7 @@ import com.the2ang.cardmemory.repository.card.MemoryCardRepository;
 import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.*;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -52,6 +54,7 @@ public class MemoryCardRepositoryImpl
     @Override
     public Slice<MemoryCard> searchBySlice(Long lastCardId, CardSearchCondition condition, Pageable pageable) {
         List<MemoryCard> results = jpaQueryFactory.selectFrom(memoryCard)
+                .join(memoryCard.middleCategory, middleCategory).fetchJoin()
                 .where(
                     ltCardId(lastCardId),
 
@@ -68,7 +71,20 @@ public class MemoryCardRepositoryImpl
 
     @Override
     public Page<MemoryCard> searchMemoryCardPage(CardSearchCondition condition, Pageable pageable) {
-        List<MemoryCard> results = jpaQueryFactory.selectFrom(memoryCard)
+
+       List<MemoryCard> content = getMemoryCardPage(condition, pageable);
+
+       //Long count = getMemoryCardPageCount(condition);
+        JPAQuery<Long> countQuery = getMemoryCardPageOptCount(condition);
+
+        return PageableExecutionUtils.getPage(content, pageable, ()-> countQuery.fetchOne());
+        //return new PageImpl<>(content, pageable, count);
+    }
+
+
+    private List<MemoryCard> getMemoryCardPage(CardSearchCondition condition, Pageable pageable) {
+        List<MemoryCard> content = jpaQueryFactory.selectFrom(memoryCard)
+                .join(memoryCard.middleCategory, middleCategory).fetchJoin()
                 .where(
                         questionLike(condition.getQuestion()),
                         questionTypeEq(condition.getQuestionType())
@@ -77,8 +93,34 @@ public class MemoryCardRepositoryImpl
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return new PageImpl<>(results, pageable, results.size());
+
+        return content;
     }
+
+    private Long getMemoryCardPageCount(CardSearchCondition condition) {
+       Long count = jpaQueryFactory
+               .select(memoryCard.count())
+               .from(memoryCard)
+               .where(
+                       questionLike(condition.getQuestion()),
+                       questionTypeEq(condition.getQuestionType())
+               )
+               .fetchOne();
+       return count;
+    }
+
+    //count 최적화 - 마지막 페이지일 경우 카운트 하지 않음
+    private JPAQuery<Long> getMemoryCardPageOptCount(CardSearchCondition condition) {
+        JPAQuery<Long> countQuery = jpaQueryFactory
+                .select(memoryCard.count())
+                .from(memoryCard)
+                .where(
+                        questionLike(condition.getQuestion()),
+                        questionTypeEq(condition.getQuestionType())
+                );
+        return countQuery;
+    }
+
 
     private Slice<MemoryCard> checkLastPage(Pageable pageable, List<MemoryCard> results) {
         boolean hasNext = false;

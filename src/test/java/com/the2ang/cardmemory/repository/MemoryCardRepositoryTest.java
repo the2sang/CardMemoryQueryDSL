@@ -126,7 +126,7 @@ public class MemoryCardRepositoryTest {
     }
 
     @Test
-    @DisplayName("카드 목록 테이징 처리로 가져오기")
+    @DisplayName("카드 목록 페이징 처리로 가져오기")
     void testCardListPage() {
 
         CardSearchCondition condition = new CardSearchCondition();

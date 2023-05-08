@@ -169,7 +169,10 @@ public class CardService {
     //카드 목록 Page로 가져오기
     @Transactional(readOnly = true)
     public Page<MemoryCard> searchMemoryCardPageing(CardSearchCondition condition, Pageable pageable) {
-        return memoryCardRepository.searchMemoryCardPage(condition, pageable);
+
+        Page<MemoryCard> result = memoryCardRepository.searchMemoryCardPage(condition, pageable);
+
+        return result;
     }
 
 }

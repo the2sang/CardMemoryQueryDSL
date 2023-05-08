@@ -4,6 +4,7 @@ package com.the2ang.cardmemory.controller;
 import com.the2ang.cardmemory.controller.response.CommonResponse;
 import com.the2ang.cardmemory.controller.response.CommonResult;
 import com.the2ang.cardmemory.controller.response.ListResult;
+import com.the2ang.cardmemory.controller.response.PageResult;
 import com.the2ang.cardmemory.dto.*;
 import com.the2ang.cardmemory.dto.jwt.TokenInfo;
 import com.the2ang.cardmemory.dto.request.MemoryCardPageRequest;
@@ -19,6 +20,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jdt.internal.compiler.batch.Main;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -178,7 +181,7 @@ public class CardController {
 
     @ApiOperation(value = "카드목록 페이징 처리해서 가져오기")
     @GetMapping("/memoryCard/paging")
-    public ListResult<MemoryCardPageResponse> searchMemoryCardPaging(@RequestBody MemoryCardPageRequest request ) {
+    public ListResult<MemoryCard> searchMemoryCardPaging(@RequestBody MemoryCardPageRequest request ) {
         CardSearchCondition condition
                 = CardSearchCondition.builder()
                 .question(request.getQuestion())
@@ -187,9 +190,16 @@ public class CardController {
                 .completed(request.getCompleted())
                 .level(request.getLevel())
                 .learningCount(request.getLearningCount())
+                .page(request.getPage())
+                .size(request.getSize())
                 .build();
 
-        return null;
+        PageRequest pageRequest = PageRequest.of(condition.getPage(), condition.getSize());
+        //Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
+        Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
+
+
+        return responseService.getListResult(result.getContent());
 
     }
 

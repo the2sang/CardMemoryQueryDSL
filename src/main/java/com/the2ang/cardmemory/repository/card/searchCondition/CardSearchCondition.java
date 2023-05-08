@@ -18,6 +18,23 @@ public class CardSearchCondition {
     private String middleCategoryId;
     private String level;
     private String learningCount;
+    private Integer page;
+    private Integer size;
+
+//    @Builder
+//    public CardSearchCondition(String question, String questionType, String cardId, String completed, String middleCategoryId,
+//                               String level, String learningCount, Integer page, Integer size) {
+//        this.question = question;
+//        this.questionType = questionType;
+//        this.cardId = cardId;
+//        this.completed = completed;
+//        this.middleCategoryId = middleCategoryId;
+//        this.level = level;
+//        this.learningCount = learningCount;
+//        this.page = page;
+//        this.size = size;
+//    }
+
 
 
 }

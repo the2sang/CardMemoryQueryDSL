@@ -1,11 +1,9 @@
 package com.the2ang.cardmemory.service;
 
 
-import com.the2ang.cardmemory.controller.response.CommonResponse;
-import com.the2ang.cardmemory.controller.response.CommonResult;
-import com.the2ang.cardmemory.controller.response.ListResult;
-import com.the2ang.cardmemory.controller.response.SingleResult;
+import com.the2ang.cardmemory.controller.response.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +26,14 @@ public class ResponseService {
         result.setList(list);
         setSuccessResult(result);
         return result;
+    }
+
+    // 복수건 결과 처리 - Paging Result
+    public <T> PageResult<T> getPageResult(Page<T> page) {
+       PageResult<T> result = new PageResult<>();
+       result.setPage(page);
+       setSuccessResult(result);
+       return result;
     }
 
     // 성공 결과만 처리

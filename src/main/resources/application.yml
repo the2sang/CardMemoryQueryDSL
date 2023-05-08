@@ -26,7 +26,7 @@ spring:
     show-sql: false
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
+    open-in-view: true
     generate-ddl: true
     properties:
       hibernate:

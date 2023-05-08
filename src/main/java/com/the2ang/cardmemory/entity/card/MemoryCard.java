@@ -1,5 +1,6 @@
 package com.the2ang.cardmemory.entity.card;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class MemoryCard extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "middle_category_id")
+    @JsonIgnore
     private MiddleCategory middleCategory;
 
     @Column(columnDefinition = "varchar(2) default 'MC'")
