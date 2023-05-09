@@ -115,7 +115,7 @@ public class CardController {
 
     @ApiOperation(value = "메모리 카드 저장히기 2")
     @PostMapping("/memoryCard/new2")
-    public CommonResult saveMemoryCard2(@RequestBody @Valid MemoryCardAddDto request) {
+    public CommonResult saveMemoryCard2(@RequestBody @Valid MemoryCardAddDto memoryCard) {
 
         System.out.println(request.toString());
 
