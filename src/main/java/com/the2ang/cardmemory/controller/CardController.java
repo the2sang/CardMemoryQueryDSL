@@ -198,7 +198,7 @@ public class CardController {
         //Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
         Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
 
-
+        //test
         return responseService.getListResult(result.getContent());
 
     }
@@ -209,11 +209,9 @@ public class CardController {
 
         CardSearchCondition condition = new CardSearchCondition();
 
-
         PageRequest pageRequest = PageRequest.of(page, 10);
         //Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
         Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
-
 
         return responseService.getListResult(result.getContent());
 
