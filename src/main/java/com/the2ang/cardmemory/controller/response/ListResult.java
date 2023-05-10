@@ -9,4 +9,5 @@ import java.util.List;
 @Setter
 public class ListResult<T> extends CommonResult {
     private List<T> list;
+    private int totalPage;
 }

@@ -205,7 +205,7 @@ public class CardController {
 
     @ApiOperation(value = "카드목록 페이징 처리해서 가져오기")
     @GetMapping("/memoryCard/next")
-    public ListResult<MemoryCard> searchMemoryCardNext(@RequestParam int page ) {
+    public PageResult<MemoryCard> searchMemoryCardNext(@RequestParam int page ) {
 
         CardSearchCondition condition = new CardSearchCondition();
 
@@ -213,7 +213,7 @@ public class CardController {
         //Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
         Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
 
-        return responseService.getListResult(result.getContent());
+        return responseService.getPageResult(result);
 
     }
 
