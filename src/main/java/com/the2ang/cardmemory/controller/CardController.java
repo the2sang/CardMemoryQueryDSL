@@ -8,7 +8,9 @@ import com.the2ang.cardmemory.controller.response.PageResult;
 import com.the2ang.cardmemory.dto.*;
 import com.the2ang.cardmemory.dto.jwt.TokenInfo;
 import com.the2ang.cardmemory.dto.request.MemoryCardPageRequest;
+import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
 import com.the2ang.cardmemory.dto.response.MemoryCardPageResponse;
+import com.the2ang.cardmemory.dto.response.MemoryCardResponse;
 import com.the2ang.cardmemory.entity.card.*;
 import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
 import com.the2ang.cardmemory.service.AccountService;
@@ -26,6 +28,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(tags = {"1. 플레시 카드 서비스"})
 @RestController
@@ -109,23 +112,23 @@ public class CardController {
 
     @ApiOperation(value = "메모리 카드 저장하기", notes = "메모리 카드 저장")
     @PostMapping("/memoryCard/new")
-    public CommonResult saveMemoryCard(@RequestBody @Valid MemoryCardDto request) {
-        return responseService.getSingleResult(cardService.saveMemoryCard(request.toEntity()));
+    public CommonResult saveMemoryCard(@RequestBody @Valid MemoryCardRequest memoryCard) {
+        return responseService.getSingleResult(cardService.saveMemoryCard(memoryCard));
     }
 
     @ApiOperation(value = "메모리 카드 저장히기 2")
     @PostMapping("/memoryCard/new2")
-    public CommonResult saveMemoryCard2(@RequestBody @Valid MemoryCardAddDto request) {
+    public CommonResult saveMemoryCard2(@RequestBody @Valid MemoryCardRequest memoryCard) {
 
-        System.out.println(request.toString());
+        //System.out.println(request.toString());
 
-        return responseService.getSingleResult(cardService.saveMemoryCard(request.toEntity()));
+        return responseService.getSingleResult(cardService.saveMemoryCard(memoryCard));
     }
 
     @ApiOperation(value = "메모리 카드 업데이트")
     @PutMapping("/memoryCard/update")
-    public CommonResult updateMemoryCard(@RequestBody @Valid MemoryCardDto request) {
-        return responseService.getSingleResult(cardService.saveMemoryCard(request.toEntity()));
+    public CommonResult updateMemoryCard(@RequestBody @Valid MemoryCardRequest memoryCard) {
+        return responseService.getSingleResult(cardService.saveMemoryCard(memoryCard));
     }
 
     @ApiOperation(value = "메모리 카드 삭제", notes = "메모리 카드 삭제하기")
@@ -138,8 +141,8 @@ public class CardController {
 
     @ApiOperation(value = "중분류 코드로 메모리 카드 가져오기", notes = "중분류 코드로 메모리 카드 조회")
     @GetMapping("/memoryCard/middlecode")
-    public ListResult<MemoryCardDto> findMamoryCardByMiddleCategoryId(@RequestParam String param) {
-        ListResult<MemoryCardDto> result = responseService.getListResult(cardService.findMemoryCardByMiddleCodeFetchJoin(Integer.valueOf(param)));
+    public ListResult<MemoryCardRequest> findMamoryCardByMiddleCategoryId(@RequestParam String param) {
+        ListResult<MemoryCardRequest> result = responseService.getListResult(cardService.findMemoryCardByMiddleCodeFetchJoin(Integer.valueOf(param)));
        // return responseService.getListResult(jacksonObjectMapper().registerModule(Hibernate5Module())
        //         .writeValueAsString(cardService.findMemoryCardByMiddleCodeFetchJoin(Integer.valueOf(param))));
 
@@ -205,16 +208,35 @@ public class CardController {
 
     @ApiOperation(value = "카드목록 페이징 처리해서 가져오기")
     @GetMapping("/memoryCard/next")
-    public PageResult<MemoryCard> searchMemoryCardNext(@RequestParam int page ) {
+    public PageResult<MemoryCardResponse> searchMemoryCardNext(@RequestParam int page ) {
 
         CardSearchCondition condition = new CardSearchCondition();
 
         PageRequest pageRequest = PageRequest.of(page, 10);
         //Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
-        Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
+        Page<MemoryCardResponse> result = toResponse(cardService.searchMemoryCardPageing(condition, pageRequest));
 
         return responseService.getPageResult(result);
 
+    }
+
+    public Page<MemoryCardResponse> toResponse(Page<MemoryCard> memoryCards) {
+        Page<MemoryCardResponse> memoryCardResponses = memoryCards.map(m ->
+                MemoryCardResponse.builder()
+                        .id(m.getId())
+                        .num1(m.getNum1())
+                        .num2(m.getNum2())
+                        .num3(m.getNum3())
+                        .num4(m.getNum4())
+                        .middleCategoryId(m.getMiddleCategory().getId())
+                        .explanation(m.getExplanation())
+                        .rightAnswer(m.getRightAnswer())
+                        .rightAnswerNum(m.getRightAnswerNum())
+                        .question(m.getQuestion())
+                        .questionType(m.getQuestionType())
+                        .level(m.getLevel())
+                        .build());
+                return memoryCardResponses;
     }
 
 

@@ -2,6 +2,7 @@ package com.the2ang.cardmemory.service;
 
 import com.the2ang.cardmemory.dto.MemoryCardDto;
 import com.the2ang.cardmemory.dto.MiddleCategoryDto;
+import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
 import com.the2ang.cardmemory.entity.card.MiddleCategory;
@@ -75,14 +76,22 @@ public class CardService {
 
     // 카드 문제 중분류 코드로 검색하기
     @Transactional(readOnly = true)
-    public List<MemoryCard> findMemoryCardByMiddleCategory(Integer ref) {
-        return memoryCardRepository.findByMiddleCategory(ref);
+    public List<MemoryCardRequest> findMemoryCardByMiddleCategory(Integer ref) {
+
+        List<MemoryCardRequest> results =
+                memoryCardRepository.findByMiddleCategory(ref)
+                        .stream()
+                        .map(MemoryCardRequest::new).collect(Collectors.toList());
+
+        return results;
+        //return memoryCardRepository.findByMiddleCategory(ref);
     }
 
     // 카드 문제 저장하기
     @Transactional
-    public MemoryCard saveMemoryCard(MemoryCard memoryCard) {
-        return memoryCardRepository.save(memoryCard);
+    public MemoryCard saveMemoryCard(MemoryCardRequest memoryCard) {
+
+        return memoryCardRepository.save(memoryCard.toEntity());
     }
 
     // 카드 삭제
@@ -99,26 +108,31 @@ public class CardService {
 
     // 중분류 코드로 메모리 카드 가져오기 (Apply Fetch Join)
     @Transactional(readOnly = true)
-    public List<MemoryCardDto> findMemoryCardByMiddleCodeFetchJoin(Integer id) {
+    public List<MemoryCardRequest> findMemoryCardByMiddleCodeFetchJoin(Integer id) {
 
-        List<MemoryCard> orgList = memoryCardRepository.findByMiddleCategoryFechJoin(id);
+        List<MemoryCardRequest> results = memoryCardRepository.findByMiddleCategoryFechJoin(id)
+                .stream().map(MemoryCardRequest::new).collect(Collectors.toList());
+        return results;
 
-        List<MemoryCardDto> result = orgList.stream()
-                .map( o -> new MemoryCardDto(o.getId(),
-                        o.getMiddleCategory().toDto(),
-                        o.getQuestionType(), o.getQuestion(),
-                        o.getExplanation(),
-                        o.getNum1(),
-                        o.getNum2(),
-                        o.getNum3(),
-                        o.getNum4(),
-                        o.getRightAnswer(),
-                        o.getRightAnswerNum(),
-                        o.getLearningCount(),
-                        o.getLevel(),
-                        o.getCompleted())).collect(Collectors.toList());
+//        List<MemoryCardDto> result = orgList.stream()
+//                .map( o -> new MemoryCardDto(o.getId(),
+//                        o.getMiddleCategory().toDto(),
+//                        o.getQuestionType(), o.getQuestion(),
+//                        o.getExplanation(),
+//                        o.getNum1(),
+//                        o.getNum2(),
+//                        o.getNum3(),
+//                        o.getNum4(),
+//                        o.getRightAnswer(),
+//                        o.getRightAnswerNum(),
+//                        o.getLearningCount(),
+//                        o.getLevel(),
+//                        o.getCompleted(),
+//                        o.getCreatedAt(),
+//                        o.getUpdatedAt()
+//                        )).collect(Collectors.toList());
 
-        return result;
+      //  return result;
     }
 
     // 중분류 코드 목록 패치조인으로 가져오기
@@ -169,6 +183,8 @@ public class CardService {
     //카드 목록 Page로 가져오기
     @Transactional(readOnly = true)
     public Page<MemoryCard> searchMemoryCardPageing(CardSearchCondition condition, Pageable pageable) {
+
+
 
         Page<MemoryCard> result = memoryCardRepository.searchMemoryCardPage(condition, pageable);
 

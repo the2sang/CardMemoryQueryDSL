@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Data
 public class MemoryCardDto {
 
@@ -22,11 +24,14 @@ public class MemoryCardDto {
     private final Integer learningCount;
     private final Integer level;
     private final Integer completed;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     @Builder
     public MemoryCardDto(Integer id, MiddleCategoryDto middleCategoryDto, String questionType, String question,
                          String explanation, String num1, String num2, String num3,
-                         String num4, String rightAnswer, Integer rightAnswerNum, Integer learningCount, Integer level, Integer completed) {
+                         String num4, String rightAnswer, Integer rightAnswerNum, Integer learningCount,
+                         Integer level, Integer completed, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.middleCategoryDto = middleCategoryDto;
         this.questionType = questionType;
@@ -41,6 +46,8 @@ public class MemoryCardDto {
         this.learningCount = learningCount;
         this.level = level;
         this.completed = completed;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public MemoryCard toEntity() {

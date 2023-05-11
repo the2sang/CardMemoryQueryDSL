@@ -1,6 +1,7 @@
 package com.the2ang.cardmemory.entity.card;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.the2ang.cardmemory.dto.response.MemoryCardResponse;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Builder;
@@ -83,6 +84,24 @@ public class MemoryCard extends BaseEntity {
         this.level = level;
         this.completed = completed;
     }
+
+    public MemoryCardResponse toResponse() {
+        return MemoryCardResponse.builder()
+                .id(id)
+                .explanation(explanation)
+                .level(level)
+                .question(question)
+                .questionType(questionType)
+                .num1(num1)
+                .num2(num2)
+                .num3(num3)
+                .num4(num4)
+                .rightAnswer(rightAnswer)
+                .rightAnswerNum(rightAnswerNum)
+                .middleCategoryId(middleCategory.getId())
+                .build();
+    }
+
 
 
 }

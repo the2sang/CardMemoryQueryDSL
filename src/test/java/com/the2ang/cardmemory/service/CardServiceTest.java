@@ -1,6 +1,7 @@
 package com.the2ang.cardmemory.service;
 
 
+import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
 import com.the2ang.cardmemory.entity.card.MiddleCategory;
@@ -107,7 +108,7 @@ public class CardServiceTest {
 
         List<MemoryCard> ressult = saveDefaultMemoryCardData();
 
-        List<MemoryCard> memoryCardList  = cardService.findMemoryCardByMiddleCategory(ressult.get(0).getMiddleCategory().getId());
+        List<MemoryCardRequest> memoryCardList  = cardService.findMemoryCardByMiddleCategory(ressult.get(0).getMiddleCategory().getId());
 
         log.info("memoryCardList - " + memoryCardList.size());
 
