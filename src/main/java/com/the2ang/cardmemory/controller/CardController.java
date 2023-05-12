@@ -11,6 +11,7 @@ import com.the2ang.cardmemory.dto.request.MemoryCardPageRequest;
 import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
 import com.the2ang.cardmemory.dto.response.MemoryCardPageResponse;
 import com.the2ang.cardmemory.dto.response.MemoryCardResponse;
+import com.the2ang.cardmemory.dto.response.SelectOptionResponse;
 import com.the2ang.cardmemory.entity.card.*;
 import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
 import com.the2ang.cardmemory.service.AccountService;
@@ -38,7 +39,6 @@ import java.util.stream.Collectors;
 public class CardController {
 
     private final CardService cardService;
-
     private final ResponseService responseService;
     private final AccountService accountService;
 
@@ -108,8 +108,6 @@ public class CardController {
         return responseService.getSuccessResult();
     }
 
-
-
     @ApiOperation(value = "메모리 카드 저장하기", notes = "메모리 카드 저장")
     @PostMapping("/memoryCard/new")
     public CommonResult saveMemoryCard(@RequestBody @Valid MemoryCardRequest memoryCard) {
@@ -137,7 +135,6 @@ public class CardController {
         cardService.deleteMemoryCard(Integer.valueOf(id));
         return responseService.getSuccessResult();
     }
-
 
     @ApiOperation(value = "중분류 코드로 메모리 카드 가져오기", notes = "중분류 코드로 메모리 카드 조회")
     @GetMapping("/memoryCard/middlecode")
@@ -174,7 +171,6 @@ public class CardController {
         return responseService.getListResult(cardService.findAllMiddleCategoryFetchJoin());
     }
 
-
     //벌크로 저장
     @ApiOperation(value = "카드 학습 벌크로 저장하기", notes = "카드 학습 벌크저장")
     @PostMapping("/memorycard/bulksave")
@@ -204,6 +200,18 @@ public class CardController {
         //test
         return responseService.getListResult(result.getContent());
 
+    }
+
+    @ApiOperation(value = "대분류 Select Option 가져오기")
+    @GetMapping("/mainCategory/selectOption")
+    public ListResult<SelectOptionResponse> getMainCategorySelectOption() {
+        return responseService.getListResult(cardService.getSelectOptionMainCategory());
+    }
+
+    @ApiOperation(value = "중분류 Select Option 가져오기")
+    @GetMapping("/middleCategory/selectOption")
+    public ListResult<SelectOptionResponse> getMiddleCategorySelectOption() {
+        return responseService.getListResult(cardService.getSelectOptionMiddleCategory());
     }
 
     @ApiOperation(value = "카드목록 페이징 처리해서 가져오기")

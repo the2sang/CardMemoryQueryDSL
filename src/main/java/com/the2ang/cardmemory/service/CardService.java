@@ -3,6 +3,7 @@ package com.the2ang.cardmemory.service;
 import com.the2ang.cardmemory.dto.MemoryCardDto;
 import com.the2ang.cardmemory.dto.MiddleCategoryDto;
 import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
+import com.the2ang.cardmemory.dto.response.SelectOptionResponse;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
 import com.the2ang.cardmemory.entity.card.MiddleCategory;
@@ -91,7 +92,9 @@ public class CardService {
     @Transactional
     public MemoryCard saveMemoryCard(MemoryCardRequest memoryCard) {
 
-        return memoryCardRepository.save(memoryCard.toEntity());
+        MemoryCard target = memoryCard.toEntity();
+
+        return memoryCardRepository.save(target);
     }
 
     // 카드 삭제
@@ -161,6 +164,34 @@ public class CardService {
         return mainCategoryRepository.findAll();
     }
 
+    //대분류 Select Option 리스트로 가져오기
+    @Transactional(readOnly = true)
+    public List<SelectOptionResponse> getSelectOptionMainCategory() {
+
+        List<MainCategory> orgList = mainCategoryRepository.findAll();
+        List<SelectOptionResponse> selectOptionResponses = orgList.stream().map(
+                m -> SelectOptionResponse.builder()
+                        .label(m.getName())
+                        .value(m.getId())
+                        .build()
+        ).toList();
+        return selectOptionResponses;
+    }
+
+    //중분류 Select Option 리스트로 가져오기
+    @Transactional(readOnly = true)
+    public List<SelectOptionResponse> getSelectOptionMiddleCategory() {
+        List<MiddleCategory> orgList = middleCategoryRepository.findAllMiddleCategoryFetchJoin();
+        List<SelectOptionResponse> selectOptionResponses = orgList.stream().map(
+                m -> SelectOptionResponse.builder()
+                        .label(m.getName())
+                        .value(m.getId())
+                        .build()
+        ).toList();
+        return selectOptionResponses;
+    }
+
+
 
     // 중분류 코드 전체 가져오기
     @Transactional(readOnly = true)
@@ -183,8 +214,6 @@ public class CardService {
     //카드 목록 Page로 가져오기
     @Transactional(readOnly = true)
     public Page<MemoryCard> searchMemoryCardPageing(CardSearchCondition condition, Pageable pageable) {
-
-
 
         Page<MemoryCard> result = memoryCardRepository.searchMemoryCardPage(condition, pageable);
 

@@ -2,6 +2,7 @@ package com.the2ang.cardmemory.service;
 
 
 import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
+import com.the2ang.cardmemory.dto.response.SelectOptionResponse;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
 import com.the2ang.cardmemory.entity.card.MiddleCategory;
@@ -49,9 +50,9 @@ public class CardServiceTest {
 
     @BeforeEach
     void setup() {
-        mainCategoryRepository.deleteAll();
-        middleCategoryRepository.deleteAll();
-        memoryCardRepository.deleteAll();
+//        mainCategoryRepository.deleteAll();
+//        middleCategoryRepository.deleteAll();
+//        memoryCardRepository.deleteAll();
     }
 
     @Test
@@ -132,7 +133,24 @@ public class CardServiceTest {
         log.info("size:" + memoryCardList.size());
     }
 
-
+    //대분류 SelectOption 리스트 테스트
+    @Test
+    void getSelectOptionMainCategory() {
+        //given
+        List<SelectOptionResponse> result = cardService.getSelectOptionMainCategory();
+        //when
+        log.info(String.valueOf(result.size()));
+        Assertions.assertNotNull(result);
+    }
+    //대분류 SelectOption 리스트 테스트
+    @Test
+    void getSelectOptionMiddleCategory() {
+        //given
+        List<SelectOptionResponse> result = cardService.getSelectOptionMiddleCategory();
+        //when
+        log.info(String.valueOf(result.size()));
+        Assertions.assertNotNull(result);
+    }
 
 
 
@@ -173,5 +191,7 @@ public class CardServiceTest {
 
         return cardService.saveMiddleCategory(middleCategory);
     }
+
+
 
 }
