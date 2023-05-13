@@ -247,6 +247,14 @@ public class CardController {
                 return memoryCardResponses;
     }
 
+    //대분류 코드로부터 중분류 코드 가져오기
+    @ApiOperation(value = "대분류 코드로부터 중분류 코드 가져오기")
+    @GetMapping("/middleCategory/mainCategoryCode")
+    public ListResult<MiddleCategory> getMiddleCategoryByMainCatId(@RequestParam int id) {
+        return responseService.getListResult(cardService.findMiddleCategoryByMainCategoryId(id));
+    }
+
+
 
 
 }

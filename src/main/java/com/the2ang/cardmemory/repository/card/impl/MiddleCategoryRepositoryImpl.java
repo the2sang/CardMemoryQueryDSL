@@ -25,6 +25,7 @@ public class MiddleCategoryRepositoryImpl
     public List<MiddleCategory> findByMainCategory(Integer id) {
         return jpaQueryFactory.selectFrom(middleCategory)
                 .where(middleCategory.mainCategory.id.eq(id))
+                .orderBy(middleCategory.id.asc())
                 .fetch();
     }
 
@@ -35,6 +36,8 @@ public class MiddleCategoryRepositoryImpl
                 .orderBy(middleCategory.id.asc())
                 .fetch();
     }
+
+
 
 
 
