@@ -14,5 +14,5 @@ public interface MiddleCategoryRepository extends BaseRepository<MiddleCategory,
 
     public List<MiddleCategory> findAllMiddleCategoryFetchJoin();
 
-    public List<MiddleCategory> findAllMiddleCa
+
 }
