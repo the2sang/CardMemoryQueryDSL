@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CardSearchCondition {
     private String question;
-    private String cardId;
+    private String mainCategorId;
     private String completed;
     private String questionType;
     private String middleCategoryId;

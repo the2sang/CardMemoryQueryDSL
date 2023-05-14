@@ -86,6 +86,7 @@ public class MemoryCardRepositoryImpl
         List<MemoryCard> content = jpaQueryFactory.selectFrom(memoryCard)
                 .join(memoryCard.middleCategory, middleCategory).fetchJoin()
                 .where(
+                        middleCategoryEq(condition.getMiddleCategoryId()),
                         questionLike(condition.getQuestion()),
                         questionTypeEq(condition.getQuestionType())
                 )
@@ -115,6 +116,7 @@ public class MemoryCardRepositoryImpl
                 .select(memoryCard.count())
                 .from(memoryCard)
                 .where(
+                        middleCategoryEq(condition.getMiddleCategoryId()),
                         questionLike(condition.getQuestion()),
                         questionTypeEq(condition.getQuestionType())
                 );
@@ -148,6 +150,14 @@ public class MemoryCardRepositoryImpl
 
     private BooleanExpression questionTypeEq(String questionType) {
         return StringUtils.hasText(questionType) ? memoryCard.questionType.eq(questionType) : null;
+    }
+
+    private BooleanExpression mainCategoryEq(Integer mainCategoryId ) {
+        return mainCategoryId != null ? memoryCard.id.eq(mainCategoryId) : null;
+    }
+
+    private BooleanExpression middleCategoryEq(String middleCategoryId) {
+        return middleCategoryId != null ? memoryCard.middleCategory.id.eq(Integer.valueOf(middleCategoryId)) : null;
     }
 
 

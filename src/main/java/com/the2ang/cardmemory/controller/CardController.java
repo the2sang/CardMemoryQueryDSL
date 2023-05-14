@@ -14,6 +14,7 @@ import com.the2ang.cardmemory.dto.response.MemoryCardResponse;
 import com.the2ang.cardmemory.dto.response.SelectOptionResponse;
 import com.the2ang.cardmemory.entity.card.*;
 import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
+import com.the2ang.cardmemory.repository.card.searchCondition.MiddleCategorySearchCondition;
 import com.the2ang.cardmemory.service.AccountService;
 import com.the2ang.cardmemory.service.CardService;
 import com.the2ang.cardmemory.service.ResponseService;
@@ -21,6 +22,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.springframework.data.domain.Page;
@@ -179,12 +181,13 @@ public class CardController {
     }
 
     @ApiOperation(value = "카드목록 페이징 처리해서 가져오기")
-    @GetMapping("/memoryCard/paging")
+    @PostMapping("/memoryCard/paging")
     public ListResult<MemoryCard> searchMemoryCardPaging(@RequestBody MemoryCardPageRequest request ) {
         CardSearchCondition condition
                 = CardSearchCondition.builder()
                 .question(request.getQuestion())
                 .questionType(request.getQuestionType())
+                .mainCategorId(request.getMainCategoryId())
                 .middleCategoryId(request.getMiddleCategoryId())
                 .completed(request.getCompleted())
                 .level(request.getLevel())
@@ -247,6 +250,7 @@ public class CardController {
                 return memoryCardResponses;
     }
 
+    //TODO 대분류 코드로부터 중분류 코드 가져오기 - controller
     //대분류 코드로부터 중분류 코드 가져오기
     @ApiOperation(value = "대분류 코드로부터 중분류 코드 가져오기")
     @GetMapping("/middleCategory/mainCategoryCode")
@@ -254,6 +258,18 @@ public class CardController {
         return responseService.getListResult(cardService.findMiddleCategoryByMainCategoryId(id));
     }
 
+    @ApiOperation(value = "대분류 검색조건 신택시 연관 중분류 코드 Select 목록 가져오기")
+    @GetMapping("/middleCategory/byMainCategory")
+    public ListResult<SelectOptionResponse> getMiddleCategoryByMainCat(@RequestParam int id) {
+
+        MiddleCategorySearchCondition condition = new MiddleCategorySearchCondition();
+        condition.setId(id);
+
+        ListResult<SelectOptionResponse> result
+                = responseService.getListResult(cardService.getMiddleCategoryByMainCat(condition));
+        return result;
+
+    }
 
 
 

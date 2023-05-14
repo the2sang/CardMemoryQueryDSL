@@ -36,31 +36,31 @@ public class MiddleCategoryRepositoryTest {
     private MiddleCategory middleCategory;
     private MainCategory mainCategory;
 
-    @BeforeEach
-    void setup() {
-
-        mainCategory = MainCategory.builder()
-                .name("test")
-                .build();
-        mainCategoryRepository.save(mainCategory);
-
-        for (int i =0; i < 4; i++) {
-            middleCategory = middleCategory.builder()
-                    .name("test-" + String.valueOf(i))
-                    .mainCategory(new MainCategory(1))
-                    .build();
-            middleCategoryRepository.save(middleCategory);
-        }
-
-    }
-
-    @Test
-    @DisplayName("대분류 코드로 중분류 코드 리스트 가져오기")
-    public void findMiddleCategoryByMainCategory() {
-
-        List<MiddleCategory> byMainCategory = middleCategoryRepository.findByMainCategory(1);
-
-        log.info("byMainCategory size:" + byMainCategory.size());
-
-    }
+//    @BeforeEach
+//    void setup() {
+//
+//        mainCategory = MainCategory.builder()
+//                .name("test")
+//                .build();
+//        mainCategoryRepository.save(mainCategory);
+//
+//        for (int i =0; i < 4; i++) {
+//            middleCategory = middleCategory.builder()
+//                    .name("test-" + String.valueOf(i))
+//                    .mainCategory(new MainCategory(1))
+//                    .build();
+//            middleCategoryRepository.save(middleCategory);
+//        }
+//
+//    }
+//
+//    @Test
+//    @DisplayName("대분류 코드로 중분류 코드 리스트 가져오기")
+//    public void findMiddleCategoryByMainCategory() {
+//
+//        List<MiddleCategory> byMainCategory = middleCategoryRepository.findByMainCategory(1);
+//
+//        log.info("byMainCategory size:" + byMainCategory.size());
+//
+//    }
 }

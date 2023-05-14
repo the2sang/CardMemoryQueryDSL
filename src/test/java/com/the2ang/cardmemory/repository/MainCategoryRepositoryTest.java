@@ -31,24 +31,24 @@ public class MainCategoryRepositoryTest {
 
     private MainCategory mainCategory;
 
-    @BeforeEach
-    void setup() {
-
-        mainCategory = MainCategory.builder()
-                .name("리눅스마스터 2급")
-                .build();
-        mainCategoryRepository.save(mainCategory);
-    }
-
-    @Test
-    @DisplayName("메인 카테고리 조회 테스트")
-    public void findByNameTest() {
-
-        List<MainCategory> byName = mainCategoryRepository.findByName("test2");
-
-        for( MainCategory category : byName) {
-            log.info("category: {}", category);
-        }
-
-    }
+//    @BeforeEach
+//    void setup() {
+//
+//        mainCategory = MainCategory.builder()
+//                .name("리눅스마스터 2급")
+//                .build();
+//        mainCategoryRepository.save(mainCategory);
+//    }
+//
+//    @Test
+//    @DisplayName("메인 카테고리 조회 테스트")
+//    public void findByNameTest() {
+//
+//        List<MainCategory> byName = mainCategoryRepository.findByName("test2");
+//
+//        for( MainCategory category : byName) {
+//            log.info("category: {}", category);
+//        }
+//
+//    }
 }

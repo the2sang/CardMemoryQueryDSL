@@ -11,6 +11,7 @@ import com.the2ang.cardmemory.repository.card.MainCategoryRepository;
 import com.the2ang.cardmemory.repository.card.MemoryCardRepository;
 import com.the2ang.cardmemory.repository.card.MiddleCategoryRepository;
 import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
+import com.the2ang.cardmemory.repository.card.searchCondition.MiddleCategorySearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -150,6 +151,23 @@ public class CardService {
                         )).collect(Collectors.toList());
         return result;
     }
+
+    //TODO 중분류 Select Option 대분류 조건으로 가져오는 CardService
+    //중분류 Select Option 목록 대분류 조건으로 가져오기
+    @Transactional(readOnly = true)
+    public List<SelectOptionResponse> getMiddleCategoryByMainCat(MiddleCategorySearchCondition condition) {
+        List<MiddleCategory> orgList
+                = middleCategoryRepository.findByMainCategorySearch(condition);
+
+        List<SelectOptionResponse> selectOptionResponses = orgList.stream()
+                .map(m -> SelectOptionResponse.builder()
+                        .label(m.getName())
+                        .value(m.getId())
+                        .build()).toList();
+        return selectOptionResponses;
+
+    }
+
 
 
     // 메모리 카드 벌크로 저장하기...

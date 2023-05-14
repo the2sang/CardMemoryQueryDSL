@@ -28,6 +28,8 @@ public class MemoryCardResponse {
     private Integer level;
     private Integer completed;
     private Integer middleCategoryId;
+    private Integer page;
+    private Integer size;
 
     public MemoryCardResponse(MemoryCard memoryCard) {
         this.id = memoryCard.getId();
