@@ -88,7 +88,8 @@ public class MemoryCardRepositoryImpl
                 .where(
                         middleCategoryEq(condition.getMiddleCategoryId()),
                         questionLike(condition.getQuestion()),
-                        questionTypeEq(condition.getQuestionType())
+                        questionTypeEq(condition.getQuestionType()),
+                        mainCategoryEq(condition.getMainCategorId())
                 )
                 .orderBy(memoryCard.id.desc())
                 .offset(pageable.getOffset())
@@ -98,17 +99,17 @@ public class MemoryCardRepositoryImpl
         return content;
     }
 
-    private Long getMemoryCardPageCount(CardSearchCondition condition) {
-       Long count = jpaQueryFactory
-               .select(memoryCard.count())
-               .from(memoryCard)
-               .where(
-                       questionLike(condition.getQuestion()),
-                       questionTypeEq(condition.getQuestionType())
-               )
-               .fetchOne();
-       return count;
-    }
+//    private Long getMemoryCardPageCount(CardSearchCondition condition) {
+//       Long count = jpaQueryFactory
+//               .select(memoryCard.count())
+//               .from(memoryCard)
+//               .where(
+//                       questionLike(condition.getQuestion()),
+//                       questionTypeEq(condition.getQuestionType())
+//               )
+//               .fetchOne();
+//       return count;
+//    }
 
     //count 최적화 - 마지막 페이지일 경우 카운트 하지 않음
     private JPAQuery<Long> getMemoryCardPageOptCount(CardSearchCondition condition) {
@@ -118,7 +119,8 @@ public class MemoryCardRepositoryImpl
                 .where(
                         middleCategoryEq(condition.getMiddleCategoryId()),
                         questionLike(condition.getQuestion()),
-                        questionTypeEq(condition.getQuestionType())
+                        questionTypeEq(condition.getQuestionType()),
+                        mainCategoryEq(condition.getMainCategorId())
                 );
         return countQuery;
     }
@@ -152,8 +154,8 @@ public class MemoryCardRepositoryImpl
         return StringUtils.hasText(questionType) ? memoryCard.questionType.eq(questionType) : null;
     }
 
-    private BooleanExpression mainCategoryEq(Integer mainCategoryId ) {
-        return mainCategoryId != null ? memoryCard.id.eq(mainCategoryId) : null;
+    private BooleanExpression mainCategoryEq(String mainCategoryId ) {
+        return mainCategoryId != null ? memoryCard.middleCategory.mainCategory.id.eq(Integer.valueOf(mainCategoryId)) : null;
     }
 
     private BooleanExpression middleCategoryEq(String middleCategoryId) {

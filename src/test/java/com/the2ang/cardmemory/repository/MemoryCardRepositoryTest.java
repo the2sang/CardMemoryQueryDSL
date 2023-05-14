@@ -125,17 +125,21 @@ public class MemoryCardRepositoryTest {
 //
 //    }
 //
-//    @Test
-//    @DisplayName("카드 목록 페이징 처리로 가져오기")
-//    void testCardListPage() {
-//
-//        CardSearchCondition condition = new CardSearchCondition();
-//        PageRequest pageRequest = PageRequest.of(0,3);
-//        Page<MemoryCard> result = memoryCardRepository.searchMemoryCardPage(condition, pageRequest);
-//
-//        Assertions.assertThat(result.getSize()).isEqualTo(3);
-//
-//    }
+    @Test
+    @DisplayName("카드 목록 페이징 처리로 가져오기")
+    void testCardListPage() {
+
+        CardSearchCondition condition = new CardSearchCondition();
+        condition.setPage(0);
+        condition.setSize(3);
+        condition.setMainCategorId("1");
+
+        PageRequest pageRequest = PageRequest.of(condition.getPage(),condition.getSize());
+        Page<MemoryCard> result = memoryCardRepository.searchMemoryCardPage(condition, pageRequest);
+
+        Assertions.assertThat(result.getSize()).isEqualTo(3);
+
+    }
 
 
 }

@@ -11,4 +11,5 @@ import lombok.*;
 public class MiddleCategorySearchCondition {
     private Integer id;
     private String name;
+    private String mainCategoryId;
 }
