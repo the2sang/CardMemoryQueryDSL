@@ -231,6 +231,21 @@ public class CardController {
 
     }
 
+    @ApiOperation(value = "검색을 통한 카드목록 페이징 처리해서 가져오기")
+    @GetMapping("/memoryCard/next/search")
+    public PageResult<MemoryCardResponse> searchMemoryCardNextSearch(@RequestParam int page, @RequestParam  String middleCategoryId ) {
+
+        CardSearchCondition condition = new CardSearchCondition();
+        condition.setMiddleCategoryId(middleCategoryId);
+
+        PageRequest pageRequest = PageRequest.of(page, 10);
+        //Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);
+        Page<MemoryCardResponse> result = toResponse(cardService.searchMemoryCardPageing(condition, pageRequest));
+
+        return responseService.getPageResult(result);
+
+    }
+
     public Page<MemoryCardResponse> toResponse(Page<MemoryCard> memoryCards) {
         Page<MemoryCardResponse> memoryCardResponses = memoryCards.map(m ->
                 MemoryCardResponse.builder()
