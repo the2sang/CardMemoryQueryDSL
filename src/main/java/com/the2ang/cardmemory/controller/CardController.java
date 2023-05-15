@@ -235,9 +235,16 @@ public class CardController {
     @GetMapping("/memoryCard/next/search")
     public PageResult<MemoryCardResponse> searchMemoryCardNextSearch(@RequestParam int page, @RequestParam  String mainCategoryId ) {
 
+
         CardSearchCondition condition = new CardSearchCondition();
-        condition.setMainCategorId(mainCategoryId);
+
+        if (mainCategoryId != null & mainCategoryId.equals("all")) {
+            mainCategoryId = null;
+        } else {
+            condition.setMainCategorId(mainCategoryId);
+        }
         condition.setPage(page);
+
 
         PageRequest pageRequest = PageRequest.of(page, 10);
         //Page<MemoryCard> result = cardService.searchMemoryCardPageing(condition, pageRequest);

@@ -99,18 +99,6 @@ public class MemoryCardRepositoryImpl
         return content;
     }
 
-//    private Long getMemoryCardPageCount(CardSearchCondition condition) {
-//       Long count = jpaQueryFactory
-//               .select(memoryCard.count())
-//               .from(memoryCard)
-//               .where(
-//                       questionLike(condition.getQuestion()),
-//                       questionTypeEq(condition.getQuestionType())
-//               )
-//               .fetchOne();
-//       return count;
-//    }
-
     //count 최적화 - 마지막 페이지일 경우 카운트 하지 않음
     private JPAQuery<Long> getMemoryCardPageOptCount(CardSearchCondition condition) {
         JPAQuery<Long> countQuery = jpaQueryFactory

@@ -131,13 +131,13 @@ public class MemoryCardRepositoryTest {
 
         CardSearchCondition condition = new CardSearchCondition();
         condition.setPage(0);
-        condition.setSize(3);
-        condition.setMainCategorId("1");
+        condition.setSize(21);
+        condition.setMainCategorId("2");
 
         PageRequest pageRequest = PageRequest.of(condition.getPage(),condition.getSize());
         Page<MemoryCard> result = memoryCardRepository.searchMemoryCardPage(condition, pageRequest);
 
-        Assertions.assertThat(result.getSize()).isEqualTo(3);
+        Assertions.assertThat(result.getSize()).isEqualTo(21);
 
     }
 
