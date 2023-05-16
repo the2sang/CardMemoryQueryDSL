@@ -18,5 +18,7 @@ public interface MiddleCategoryRepository extends BaseRepository<MiddleCategory,
 
     public List<MiddleCategory> findByMainCategorySearch(MiddleCategorySearchCondition condition);
 
+    public MiddleCategory getMiddleCategoryByKey(Integer id);
+
 
 }

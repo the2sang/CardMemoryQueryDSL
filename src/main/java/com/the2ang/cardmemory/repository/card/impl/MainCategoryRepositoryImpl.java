@@ -20,5 +20,10 @@ public class MainCategoryRepositoryImpl
     }
 
 
+    public MainCategory getMainCategoryByKey(Integer id) {
+        return jpaQueryFactory.selectFrom(mainCategory)
+                .where(mainCategory.id.eq(id)).fetchOne();
+    }
+
 
 }

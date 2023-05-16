@@ -150,6 +150,10 @@ public class MemoryCardRepositoryImpl
         return middleCategoryId != null ? memoryCard.middleCategory.id.eq(Integer.valueOf(middleCategoryId)) : null;
     }
 
+    @Override
+    public MemoryCard findByKey(Integer id) {
+        return jpaQueryFactory.selectFrom(memoryCard).where(memoryCard.id.eq(id)).fetchOne();
+    }
 
 
 

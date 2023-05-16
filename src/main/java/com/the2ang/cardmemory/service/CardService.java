@@ -3,6 +3,7 @@ package com.the2ang.cardmemory.service;
 import com.the2ang.cardmemory.dto.MemoryCardDto;
 import com.the2ang.cardmemory.dto.MiddleCategoryDto;
 import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
+import com.the2ang.cardmemory.dto.response.MemoryCardResponse;
 import com.the2ang.cardmemory.dto.response.SelectOptionResponse;
 import com.the2ang.cardmemory.entity.card.MainCategory;
 import com.the2ang.cardmemory.entity.card.MemoryCard;
@@ -12,6 +13,7 @@ import com.the2ang.cardmemory.repository.card.MemoryCardRepository;
 import com.the2ang.cardmemory.repository.card.MiddleCategoryRepository;
 import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
 import com.the2ang.cardmemory.repository.card.searchCondition.MiddleCategorySearchCondition;
+import io.swagger.models.auth.In;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -237,5 +239,22 @@ public class CardService {
 
         return result;
     }
+
+    @Transactional(readOnly = true)
+    public MemoryCard getMemoryCardByKey(Integer id) {
+        MemoryCard result = memoryCardRepository.findByKey(id);
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public MiddleCategory getMiddleCategoryByKey(Integer id) {
+        return middleCategoryRepository.getMiddleCategoryByKey(id);
+    }
+
+    @Transactional(readOnly = true)
+    public MainCategory getMainCategoryByKey(Integer id) {
+        return mainCategoryRepository.getMainCategoryByKey(id);
+    }
+
 
 }

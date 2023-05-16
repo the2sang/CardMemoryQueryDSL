@@ -1,16 +1,14 @@
 package com.the2ang.cardmemory.controller;
 
 
-import com.the2ang.cardmemory.controller.response.CommonResponse;
-import com.the2ang.cardmemory.controller.response.CommonResult;
-import com.the2ang.cardmemory.controller.response.ListResult;
-import com.the2ang.cardmemory.controller.response.PageResult;
+import com.the2ang.cardmemory.controller.response.*;
 import com.the2ang.cardmemory.dto.*;
 import com.the2ang.cardmemory.dto.jwt.TokenInfo;
 import com.the2ang.cardmemory.dto.request.MemoryCardPageRequest;
 import com.the2ang.cardmemory.dto.request.MemoryCardRequest;
 import com.the2ang.cardmemory.dto.response.MemoryCardPageResponse;
 import com.the2ang.cardmemory.dto.response.MemoryCardResponse;
+import com.the2ang.cardmemory.dto.response.MiddleCategoryResponse;
 import com.the2ang.cardmemory.dto.response.SelectOptionResponse;
 import com.the2ang.cardmemory.entity.card.*;
 import com.the2ang.cardmemory.repository.card.searchCondition.CardSearchCondition;
@@ -25,6 +23,8 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jdt.internal.compiler.batch.Main;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpRequest;
@@ -43,6 +43,9 @@ public class CardController {
     private final CardService cardService;
     private final ResponseService responseService;
     private final AccountService accountService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @PostMapping("/login")
@@ -294,6 +297,25 @@ public class CardController {
 
     }
 
+    @GetMapping("/memoryCard/one")
+    public SingleResult<MemoryCardResponse> getMemoryCardByKey(@RequestParam int id) {
+
+        MemoryCard card = cardService.getMemoryCardByKey(id);
+
+        return responseService.getSingleResult(modelMapper.map(card, MemoryCardResponse.class));
+    }
+
+    @GetMapping("/middleCategory/one")
+    public SingleResult<MiddleCategoryResponse> getMiddleCategoryByKey(@RequestParam Integer id) {
+        MiddleCategory middleCategory = cardService.getMiddleCategoryByKey(id);
+
+        return responseService.getSingleResult(modelMapper.map(middleCategory, MiddleCategoryResponse.class));
+    }
+
+    @GetMapping("/mainCategory/one")
+    public SingleResult<MainCategory> getMainCategoryByKey(@RequestParam int id) {
+        return responseService.getSingleResult(cardService.getMainCategoryByKey(id));
+    }
 
 
 }

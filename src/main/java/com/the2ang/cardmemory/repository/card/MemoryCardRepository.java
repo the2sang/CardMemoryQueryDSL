@@ -23,5 +23,7 @@ public interface MemoryCardRepository extends BaseRepository<MemoryCard, Integer
 
     public Page<MemoryCard> searchMemoryCardPage(CardSearchCondition condition, Pageable pageable);
 
+    public MemoryCard findByKey(Integer id);
+
 
 }

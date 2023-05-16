@@ -66,6 +66,12 @@ public class MiddleCategoryRepositoryImpl
         return StringUtils.hasText(name) ? middleCategory.name.like("%" + name + "%") : null;
     }
 
+    @Override
+    public MiddleCategory getMiddleCategoryByKey(Integer id) {
+        return jpaQueryFactory.selectFrom(middleCategory)
+                .where(middleCategory.id.eq(id)).fetchOne();
+    }
+
 
 
 
